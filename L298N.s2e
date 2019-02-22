@@ -1,0 +1,73 @@
+
+{	"extensionName": "L298N Motor Kontrol",
+	"description": "L298N motor sürücü ile kolay motor kontrolü",
+	"version": "1.0",
+	"author": "Mustafa Burak Kalkan (mburakkalkan@gmail.com)",
+	"homepage": "https://github.com/mburakkalkan/mblock-l298n",
+	"sort": 0,
+	"javascriptURL":"js/L298N.js",
+	"firmware":"1.0.1",
+	"extensionPort":0,
+	"blockSpecs": [
+		[
+			"w",
+			"%d.motorlar pin1=%d.digital pin2=%d.digital hız pini=%d.analog",
+			"L298N_Motor_Tanimla",
+			"MOTOR1",
+			7,
+			8,
+			9,
+			{  
+				"setup":"pinMode(M{0}_PIN1, OUTPUT);\npinMode(M{0}_PIN2, OUTPUT);\npinMode(M{0}_HIZ_PIN, OUTPUT);\n",
+				"inc":"",
+				"def":"\n#define M{0}_PIN1 {1}\n#define M{0}_PIN2 {2}\n#define M{0}_HIZ_PIN {3}\n\nvoid L298NMotorKontrol(int pin1, int pin2, int hizPin, bool yon, int hiz) {\n digitalWrite(pin1, yon);\ndigitalWrite(pin2, !yon);\nanalogWrite(hizPin, hiz);\n}\n",
+				"work":"",
+				"loop":""
+			}
+		],
+		[
+			"w",
+			"%d.motorlar motorunu %d.yon yönde %d hızında çalıştır",
+			"L298N_Motor_Kontol",
+			"MOTOR1",
+			"ileri",
+			255,
+			{
+				"setup":"",
+				"inc":"",
+				"def":"",
+				"work":"L298NMotorKontrol(M{0}_PIN1, M{0}_PIN2, M{0}_HIZ_PIN, {1}, {2});\n",
+				"loop":""
+			}
+		],
+		[
+			"w",
+			"%d.motorlar motorunu durdur",
+			"L298N_Motor_Durdur",
+			"MOTOR1",
+			{
+				"setup":"",
+				"inc":"",
+				"def":"",
+				"work":"L298NMotorKontrol(M{0}_PIN1, M{0}_PIN2, M{0}_HIZ_PIN, 0, 0);\n",
+				"loop":""
+			}
+		]
+	],
+	"menus": {
+		"motorlar":["MOTOR1", "MOTOR2"],
+		"yon":["ileri", "geri"],
+		"digital":[0,1,2,3,4,5,6,7,8,9,10,11,12,13],
+		"analog":[3,5,6,9,10,11]
+	},
+	"values":{
+		"ileri": 1,
+		"geri":0,
+		"MOTOR1":1,
+		"MOTOR2":2
+	},
+	"translators":{
+		"en_US":{
+		}
+	}
+}
